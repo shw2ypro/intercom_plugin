@@ -7,7 +7,7 @@ import com.google.firebase.messaging.RemoteMessage
 import io.intercom.android.sdk.push.IntercomPushClient
 
 @SuppressLint("MissingFirebaseInstanceTokenRefresh")
-class PushInterceptService : FirebaseMessagingService() {
+class IntercomInterceptor : FirebaseMessagingService() {
     private val TAG = "PushInterceptService"
     private val intercomPushClient = IntercomPushClient()
 
