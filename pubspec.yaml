@@ -1,8 +1,8 @@
 name: intercom_plugin
-description: A new flutter plugin project.
-version: 0.0.1
-author:
-homepage:
+description: A plugin that translates the Intercom SDK into a plugin for Flutter
+version: 0.1.0
+author: Lucas Eduardo
+repository: https://github.com/LucasED78/intercom_plugin
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
