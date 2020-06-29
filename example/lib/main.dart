@@ -14,7 +14,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  @override
+  void initState() {
+    Intercom.initialize(
+      androidApiKey: 'android_sdk-516e7d257ee2d4b98bf801c146e6c5c92c5a77e5',
+      iOSApiKey: 'ios_sdk-f89bc4dce1f127d8a65b36e18dcbbc5baf53b907',
+      appId: 'xypa8ezx'
+    );
+
+    Intercom.registerUnidentifiedUser();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,21 +33,32 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: FlatButton(
-            child: Text("INTERCOM"),
-            onPressed: () async{
-              await Intercom.initialize(androidApiKey: 'android_sdk-516e7d257ee2d4b98bf801c146e6c5c92c5a77e5', iOSApiKey: '', appId: 'xypa8ezx');
-//              await Intercom.logout();
-              await Intercom.setTokenAndRegisterUser(
-                token: "fJ8WUh0iRg6zUFadpy9ffY:APA91bGDi5_8xjQwFAGy10t0TTgHMxS2ufKdt2gF6uWl7W7rp6NCIMTdYNrMMmzNU-d_IAQyavDoj4e5kULacR5B3CAUiX4iBsuEMGDjOuF-Q1Qjk0u5hPwAXWKsZVIZcJRGlH9vJhdC",
-                email: "ihihihihi@hotmail.com",
-                name: "Jocka",
-                phone: "+5511942710174",
-                userId: "f5711ced-1ab1-415b-bbff-a291501a2966"  ,
-                signedUpAt: DateTime.now()
-              );
-            },
+        body: Builder(
+          builder: (context) => Center(
+            child: Column(
+              children: <Widget>[
+                FlatButton(
+                  child: Text("Display messenger"),
+                  onPressed: () async{
+                    await Intercom.displayMessenger();
+                  },
+                ),
+                FlatButton(
+                  child: Text("Logs a event"),
+                  onPressed: () async{
+                    await Intercom.logEvent("First event", metadata: {
+                      "meta":"data"
+                    });
+
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Event logged with success"),
+                        )
+                    );
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),
