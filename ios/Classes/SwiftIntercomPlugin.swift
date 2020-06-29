@@ -4,6 +4,7 @@ import Intercom
 
 public class SwiftIntercomPlugin: NSObject, FlutterPlugin {
   let channel: FlutterMethodChannel
+  let pluginErrors = IntercomPluginErrors()
     
   init(_ channel: FlutterMethodChannel) {
     self.channel = channel
@@ -25,15 +26,12 @@ public class SwiftIntercomPlugin: NSObject, FlutterPlugin {
     
     let method = call.method
     var arguments = call.arguments as? NSDictionary
-    var disablePush = false
     
     switch method {
     case "initialize":
         if let apiKey = arguments?["apiKey"] as? String,
-            let appId = arguments?["appId"] as? String,
-            let disablePushOnIOS = arguments?["disablePushOnIOS"] as? Bool {
+            let appId = arguments?["appId"] as? String {
             Intercom.setApiKey(apiKey, forAppId: appId)
-            disablePush = disablePushOnIOS
         }
         
         result("apiKey or appId was not passed correctly")
@@ -75,7 +73,7 @@ public class SwiftIntercomPlugin: NSObject, FlutterPlugin {
         let userAttributes = ICMUserAttributes()
         
         if let email = arguments?["email"] as? String {
-            userAttributes.email? = email
+            userAttributes.email = email
         }
         
         if let userId = arguments?["userId"] as? String {
@@ -113,17 +111,7 @@ public class SwiftIntercomPlugin: NSObject, FlutterPlugin {
     case "hideMessenger":
         Intercom.hideMessenger()
     case "setDeviceToken":
-        if let deviceToken = arguments?["deviceToken"] as? String {
-            if let dataToken = deviceToken.dataFromString() {
-                Intercom.setDeviceToken(dataToken)
-            }
-        }
-        
-        result(FlutterError(
-            code: "argument",
-            message: "device token was not passed correctly",
-            details: "try to pass an an valid deviceToken")
-        )
+        break
     case "isIntercomPush":
         let notificationArgs = call.arguments as? [String: [AnyHashable : Any]]
         
@@ -162,6 +150,10 @@ public class SwiftIntercomPlugin: NSObject, FlutterPlugin {
     }
   }
     
+  public func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+      Intercom.setDeviceToken(deviceToken)
+  }
+    
   @objc func onUnreadConversationCount() {
     channel.invokeMethod("onUnreadConversationCount", arguments: Intercom.unreadConversationCount())
   }
@@ -170,7 +162,7 @@ public class SwiftIntercomPlugin: NSObject, FlutterPlugin {
 
 extension String {
     func dataFromString() -> Data? {
-        return Data(base64Encoded: self)
+        return self.data(using: .utf8)
     }
     
     func dateFromString(withLocale locale: Locale) -> Date? {
