@@ -89,7 +89,10 @@ public class IntercomPlugin(private val application: Application?): FlutterPlugi
           }
         }
       }
-      "logout" -> Intercom.client().logout()
+      "logout" -> {
+        Intercom.client().logout()
+        result.success("User logout from Intercom")
+      }
       "updateUser" -> {
         val userAttributes = UserAttributes.Builder()
 
