@@ -1,3 +1,7 @@
+## 0.1.2
+
+Updating README
+
 ## 0.1.1
 
 Inserting result call on logout method

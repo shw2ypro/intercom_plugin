@@ -28,9 +28,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     Intercom.initialize(
-      androidApiKey: 'android_sdk-516e7d257ee2d4b98bf801c146e6c5c92c5a77e5', 
-      iOSApiKey: 'ios_sdk-f89bc4dce1f127d8a65b36e18dcbbc5baf53b907', 
-      appId: 'xypa8ezx'
+      androidApiKey: 'ANDROID API KEY', 
+      iOSApiKey: 'iOS API KEY', 
+      appId: 'YOUR APP ID'
     );
     super.initState();
   }
