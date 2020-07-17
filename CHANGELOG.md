@@ -1,3 +1,7 @@
+## 0.1.3
+
+Formating code with dartfmt
+
 ## 0.1.2
 
 Updating README
