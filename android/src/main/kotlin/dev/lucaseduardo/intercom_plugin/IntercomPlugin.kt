@@ -16,16 +16,18 @@ import io.intercom.android.sdk.push.IntercomPushClient
 import java.text.SimpleDateFormat
 
 /** IntercomPlugin */
-public class IntercomPlugin(private val application: Application?): FlutterPlugin, MethodCallHandler {
+public class IntercomPlugin(): FlutterPlugin, MethodCallHandler {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
   /// when the Flutter Engine is detached from the Activity
   private lateinit var channel : MethodChannel
-//  private lateinit var application: Application
+  private var application: Application? = null
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "intercom_plugin")
+    val context = flutterPluginBinding.applicationContext as? Application
+    application = context
     channel.setMethodCallHandler(this);
   }
 
@@ -42,7 +44,7 @@ public class IntercomPlugin(private val application: Application?): FlutterPlugi
     @JvmStatic
     fun registerWith(registrar: Registrar) {
       val channel = MethodChannel(registrar.messenger(), "intercom_plugin")
-      channel.setMethodCallHandler(IntercomPlugin(registrar.context() as? Application))
+      channel.setMethodCallHandler(IntercomPlugin())
     }
   }
 
@@ -178,6 +180,18 @@ public class IntercomPlugin(private val application: Application?): FlutterPlugi
         Intercom.client().displayMessenger()
 
         result.success("Displaying messenger")
+      }
+      "setInAppMessages" -> {
+        call.argument<Boolean>("enable")?.let {
+          val enable = if (it) {
+            Intercom.Visibility.VISIBLE
+          }
+          else Intercom.Visibility.GONE
+
+          Intercom.client().setInAppMessageVisibility(visibility)
+
+          result.success("Launcher visibility updated to $enable")
+        }
       }
       "setDeviceToken" -> {
         call.argument<String>("deviceToken")?.let { token ->

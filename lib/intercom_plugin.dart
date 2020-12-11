@@ -144,4 +144,8 @@ class Intercom {
   static Future<void> displayMessenger() {
     return _channel.invokeMethod("displayMessenger");
   }
+
+  static Future<void> setInAppMessages(bool enable) {
+    return _channel.invokeMethod("setInAppMessages", { "enable": enable });
+  }
 }

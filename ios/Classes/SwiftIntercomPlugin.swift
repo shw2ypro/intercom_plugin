@@ -138,6 +138,12 @@ public class SwiftIntercomPlugin: NSObject, FlutterPlugin {
         )
     case "displayMessenger":
         Intercom.presentMessenger()
+    case "setInAppMessages":
+        let launcherArgs = call.arguments as? [String:Bool]
+        
+        if let enable = launcherArgs?["enable"] {
+            Intercom.setInAppMessagesVisible(enable)
+        }
     case "UnreadConversationCount":
         result(Intercom.unreadConversationCount())
     case "onUnreadConversationCount":
@@ -148,10 +154,6 @@ public class SwiftIntercomPlugin: NSObject, FlutterPlugin {
 //        result(FlutterMethodNotImplemented("Method \(method) was not implemented"))
         result("error")
     }
-  }
-    
-  public func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-      Intercom.setDeviceToken(deviceToken)
   }
     
   @objc func onUnreadConversationCount() {
