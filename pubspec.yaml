@@ -1,6 +1,6 @@
 name: intercom_plugin
 description: A plugin that translates the Intercom SDK into a plugin for Flutter
-version: 0.1.5
+version: 0.1.6
 repository: https://github.com/LucasED78/intercom_plugin
 
 environment:
