@@ -1,3 +1,7 @@
+## 0.1.6
+
+- Fixing wrong argument on setInAppMessageVisibility
+
 ## 0.1.5
 
 - Adding setInAppMessageVisibility support

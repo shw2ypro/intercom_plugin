@@ -188,7 +188,7 @@ public class IntercomPlugin(): FlutterPlugin, MethodCallHandler {
           }
           else Intercom.Visibility.GONE
 
-          Intercom.client().setInAppMessageVisibility(visibility)
+          Intercom.client().setInAppMessageVisibility(enable)
 
           result.success("Launcher visibility updated to $enable")
         }
