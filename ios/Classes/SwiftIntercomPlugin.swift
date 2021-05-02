@@ -25,7 +25,7 @@ public class SwiftIntercomPlugin: NSObject, FlutterPlugin {
     print("Calling method \(String(describing: method))")
     
     let method = call.method
-    var arguments = call.arguments as? NSDictionary
+    let arguments = call.arguments as? NSDictionary
     
     switch method {
     case "initialize":
